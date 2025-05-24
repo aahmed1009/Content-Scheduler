@@ -1,67 +1,203 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Content Scheduler API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A backend API built with **Laravel** for scheduling and managing social media posts across platforms like Twitter, Instagram, and LinkedIn. This challenge project includes authentication, post scheduling, platform management, character validation, rate limiting, job queues, and activity logging.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+##Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* ✅ Laravel Sanctum authentication (login/register)
+* ✅ CRUD for posts (create, read, update, delete)
+* ✅ Schedule posts with `scheduled_time`
+* ✅ Per-platform character limit validation
+* ✅ Platform activation per user
+* ✅ Max 10 scheduled posts per user per day
+* ✅ Laravel Job for automatic post publishing
+* ✅ Activity logging: post\_created, post\_updated, post\_deleted
+* ✅ Performance optimizations (eager loading, pagination, caching)
+* ✅ Full test coverage with PHPUnit
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+##  System Requirements
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* PHP 
+* Composer
+* Laravel 10+
+* PostgreSQL 
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+##  Installation Guide
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+# Clone the repo
+git clone https://github.com/aahmed1009/content-scheduler.git
+cd content-scheduler
 
-### Premium Partners
+# Install dependencies
+composer install
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
+# Generate app key
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+### 🔧 Configure Database
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Update `.env`:
 
-## Security Vulnerabilities
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=content_scheduler
+DB_USERNAME=username
+DB_PASSWORD=password
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+###  Migrate & Seed
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# Content-Scheduler
+```bash
+php artisan migrate --seed
+```
+
+---
+
+###  Run the App
+
+```bash
+php artisan serve
+```
+
+App will be available at:
+ `http://127.0.0.1:8000`
+
+---
+
+##  Authentication (via Laravel Sanctum)
+
+### Register
+
+```http
+POST /api/register
+Content-Type: application/json
+
+{
+  "name": "Alaa",
+  "email": "alaa@example.com",
+  "password": "password",
+  "password_confirmation": "password"
+}
+```
+
+### Login
+
+```http
+POST /api/login
+Content-Type: application/json
+
+{
+  "email": "alaa@example.com",
+  "password": "password"
+}
+```
+## Screenshots
+
+### Register 
+
+![Register](screenshots/register.png)
+
+### logout
+
+![logout](screenshots/logout.png)
+
+
+### Login 
+
+![Login](screenshots/login.png)
+
+
+---
+Use the returned `token` as:
+
+```
+Authorization: Bearer <token>
+```
+
+---
+
+## 📬 API Endpoints
+
+### 🔸 Posts
+
+* `GET /api/posts` – List posts (with filters)
+* `POST /api/posts` – Create post
+* `PUT /api/posts/{id}` – Update post
+* `DELETE /api/posts/{id}` – Delete post
+
+### 🔸 Platforms
+
+* `GET /api/platforms` – List all platforms
+* `POST /api/platforms/toggle` – Activate/deactivate platform for user
+
+### 🔸 Logs
+
+* `GET /api/logs` – View authenticated user's activity logs
+
+---
+
+## ⏱️ Scheduled Job for Publishing Posts
+
+Posts scheduled with `scheduled_time <= now()` will be published by a Laravel Job.
+
+### Setup Cron (Ubuntu)
+
+```bash
+crontab -e
+```
+
+Add:
+
+```bash
+* * * * * cd /path/to/content-scheduler && php artisan schedule:run >> /dev/null 2>&1
+```
+
+---
+
+## 🧺s Testing
+
+Run the full test suite:
+
+```bash
+php artisan test
+```
+
+Or target a specific class:
+
+```bash
+php artisan test --filter=PostFeatureTest
+```
+
+✅ Tests include:
+
+* Post creation
+* Rate limiting
+* Character limit validation
+
+---
+
+## ⚡ Performance Optimizations
+
+* Eager loading relationships: `.with('platforms')`
+
+* Caching: `Cache::remember('platforms', ...)`
+* Background jobs: Laravel queue for scheduled publishing
+
+---
+
