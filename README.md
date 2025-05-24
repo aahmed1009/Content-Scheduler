@@ -107,7 +107,23 @@ Content-Type: application/json
   "password": "password"
 }
 ```
+## Screenshots
 
+### Register 
+
+![Register](screenshots/register.png)
+
+### logout
+
+![logout](screenshots/logout.png)
+
+
+### Login 
+
+![Login](screenshots/login.png)
+
+
+---
 Use the returned `token` as:
 
 ```
